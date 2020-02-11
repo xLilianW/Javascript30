@@ -62,13 +62,45 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.05s ease;
     }
 
   </style>
 
   <script>
+    const MAX_DEGREES = 360;
+    const MAX_SECONDS = 60;
+    const MAX_MINUTES = 60;
+    const MAX_HOURS = 12;
+    const START_OFFSET = 90;
+    const SECOND_DEGREE_INTERVAL = 6;
+    const MINUTE_DEGREE_INTERVAL = 30;
 
-
+    const secondHand = document.querySelector('.second-hand');
+    const minuteHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
+   
+    function updateClock() {
+      const now = new Date();
+      
+      const seconds = now.getSeconds();
+      const secondDegrees = ((seconds/MAX_SECONDS) * MAX_DEGREES) + START_OFFSET;
+      secondHand.style.transform = `rotate(${secondDegrees}deg)`;
+    
+      const minutes = now.getMinutes();
+      const minuteDegrees = ((minutes/MAX_MINUTES) * MAX_DEGREES) + ((seconds/MAX_SECONDS) * SECOND_DEGREE_INTERVAL) + START_OFFSET;
+      minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
+    
+      const hours = now.getHours();
+      const hourDegrees = ((hours/MAX_HOURS) * MAX_DEGREES) + ((minutes/MAX_MINUTES) * MINUTE_DEGREE_INTERVAL) + START_OFFSET;
+     console.log(hourDegrees);
+	    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+    }
+    
+    setInterval(updateClock, 1000);
+    updateClock();
   </script>
 </body>
 </html>
